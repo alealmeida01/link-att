@@ -1,1 +1,527 @@
 # link-att
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alexandre Júnior | Links</title>
+  <meta name="description" content="Links de Alexandre Júnior: Instagram, GitHub, LinkedIn e TikTok.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.62);
+      --card: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 255, 255, 0.10);
+      --purple: #7c3aed;
+      --violet: #a855f7;
+      --blue: #3b82f6;
+      --indigo: #4f46e5;
+
+      --instagram: #ff2d87;
+      --github: #ffffff;
+      --linkedin: #0a84ff;
+      --tiktok: #25f4ee;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 56px 16px 40px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ---------- Fundo animado ---------- */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .bg::before {
+      content: "";
+      position: absolute;
+      inset: -50%;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(124, 58, 237, 0.45), transparent 40%),
+        radial-gradient(circle at 70% 60%, rgba(59, 130, 246, 0.38), transparent 42%),
+        radial-gradient(circle at 45% 80%, rgba(168, 85, 247, 0.30), transparent 40%);
+      filter: blur(40px);
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+
+    .blob {
+      position: absolute;
+      width: 46vmax;
+      height: 46vmax;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      mix-blend-mode: screen;
+    }
+    .blob.b1 { background: var(--purple); top: -15vmax; left: -12vmax; animation: float1 22s ease-in-out infinite; }
+    .blob.b2 { background: var(--blue);   bottom: -18vmax; right: -14vmax; animation: float2 26s ease-in-out infinite; }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 3px 3px;
+      opacity: 0.25;
+    }
+
+    @keyframes drift {
+      0%   { transform: rotate(0deg) scale(1); }
+      50%  { transform: rotate(25deg) scale(1.1); }
+      100% { transform: rotate(-15deg) scale(1.05); }
+    }
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0); }
+      50%      { transform: translate(18vw, 14vh); }
+    }
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0); }
+      50%      { transform: translate(-16vw, -12vh); }
+    }
+
+    /* ---------- Spotlight do cursor ---------- */
+    .spotlight {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 30%), rgba(139, 92, 246, 0.12), transparent 60%);
+      transition: background 0.1s;
+    }
+
+    /* ---------- Container ---------- */
+    .container {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* ---------- Avatar ---------- */
+    .avatar-wrap {
+      position: relative;
+      width: 112px;
+      height: 112px;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: popIn 0.8s cubic-bezier(.2,.9,.3,1.3) 0.1s forwards;
+    }
+
+    .avatar-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--violet), var(--blue), var(--tiktok), var(--instagram), var(--violet));
+      animation: spin 6s linear infinite;
+      filter: blur(0.5px);
+    }
+    .avatar-ring::after {
+      content: "";
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      background: inherit;
+      filter: blur(18px);
+      opacity: 0.55;
+      z-index: -1;
+    }
+
+    .avatar {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #1a1033, #0f1630);
+      border: 3px solid var(--bg);
+      display: grid;
+      place-items: center;
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      animation: breathe 4s ease-in-out infinite;
+      user-select: none;
+    }
+    .avatar span {
+      background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .status-dot {
+      position: absolute;
+      right: 6px;
+      bottom: 8px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #22c55e;
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+      animation: pulse 2.2s infinite;
+    }
+
+    @keyframes spin    { to { transform: rotate(360deg); } }
+    @keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55); }
+      70%  { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.6) translateY(10px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* ---------- Textos ---------- */
+    h1 {
+      font-size: clamp(1.5rem, 5vw, 1.9rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .handle {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 32px;
+      min-height: 1.4em;
+    }
+    .handle .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--violet);
+      margin-left: 2px;
+      vertical-align: -2px;
+      animation: blink 1s steps(1) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.7s cubic-bezier(.2,.8,.2,1) forwards;
+      animation-delay: var(--d, 0s);
+    }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* ---------- Links ---------- */
+    .links {
+      list-style: none;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .link {
+      --c: #fff;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--text);
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      overflow: hidden;
+      transition: transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s, border-color 0.35s, background 0.35s;
+      -webkit-tap-highlight-color: transparent;
+      will-change: transform;
+    }
+
+    /* brilho que segue o mouse dentro do card */
+    .link::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(240px circle at var(--x, 50%) var(--y, 50%), color-mix(in srgb, var(--c) 18%, transparent), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    /* reflexo diagonal */
+    .link::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(110deg, transparent, rgba(255,255,255,0.12), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.7s ease;
+      pointer-events: none;
+    }
+
+    .link:hover,
+    .link:focus-visible {
+      transform: translateY(-5px) scale(1.015);
+      border-color: color-mix(in srgb, var(--c) 70%, transparent);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow:
+        0 0 0 1px color-mix(in srgb, var(--c) 35%, transparent),
+        0 10px 30px -6px color-mix(in srgb, var(--c) 45%, transparent),
+        0 0 40px -8px color-mix(in srgb, var(--c) 55%, transparent);
+      outline: none;
+    }
+    .link:hover::before,
+    .link:focus-visible::before { opacity: 1; }
+    .link:hover::after,
+    .link:focus-visible::after { left: 140%; }
+    .link:active { transform: translateY(-2px) scale(0.99); }
+
+    .icon {
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: color-mix(in srgb, var(--c) 12%, transparent);
+      border: 1px solid color-mix(in srgb, var(--c) 30%, transparent);
+      transition: transform 0.4s cubic-bezier(.2,.8,.2,1.4), box-shadow 0.35s;
+      position: relative;
+      z-index: 1;
+    }
+    .icon svg { width: 24px; height: 24px; fill: var(--c); }
+    .link:hover .icon {
+      transform: rotate(-8deg) scale(1.08);
+      box-shadow: 0 0 18px -2px color-mix(in srgb, var(--c) 70%, transparent);
+    }
+
+    .label {
+      flex: 1;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .label strong { font-size: 1rem; font-weight: 600; }
+    .label small {
+      font-size: 0.8rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .arrow {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      stroke: var(--muted);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.35s, stroke 0.35s;
+      position: relative;
+      z-index: 1;
+    }
+    .link:hover .arrow { transform: translateX(4px); stroke: var(--c); }
+
+    .instagram { --c: var(--instagram); }
+    .github    { --c: var(--github); }
+    .linkedin  { --c: var(--linkedin); }
+    .tiktok    { --c: var(--tiktok); }
+
+    /* Instagram com ícone em gradiente */
+    .instagram .icon {
+      background: linear-gradient(135deg, rgba(254,218,117,.18), rgba(214,41,118,.22), rgba(79,91,213,.22));
+    }
+
+    /* Entrada em cascata */
+    .links li {
+      opacity: 0;
+      transform: translateY(24px) scale(0.97);
+      animation: cascade 0.65s cubic-bezier(.2,.8,.2,1) forwards;
+      animation-delay: calc(0.55s + var(--i) * 0.12s);
+    }
+    @keyframes cascade { to { opacity: 1; transform: translateY(0) scale(1); } }
+
+    /* Ripple ao clicar */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      background: color-mix(in srgb, var(--c) 35%, transparent);
+      animation: ripple 0.6s ease-out forwards;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* ---------- Responsivo ---------- */
+    @media (min-width: 600px) {
+      body { padding-top: 80px; }
+      .avatar-wrap { width: 128px; height: 128px; }
+      .avatar { font-size: 2.8rem; }
+      .link { padding: 16px 20px; }
+      .links { gap: 16px; }
+    }
+
+    @media (hover: none) {
+      .link:hover { transform: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="spotlight" aria-hidden="true"></div>
+
+  <main class="container">
+    <div class="avatar-wrap">
+      <div class="avatar-ring"></div>
+      <div class="avatar"><span>AJ</span></div>
+      <div class="status-dot" title="Online"></div>
+    </div>
+
+    <h1 class="fade-up" style="--d: .3s">Alexandre Júnior</h1>
+    <p class="handle fade-up" style="--d: .42s"><span id="typed"></span><span class="cursor"></span></p>
+
+    <ul class="links">
+      <li style="--i: 0">
+        <a class="link instagram" href="https://instagram.com/SEU_USUARIO" target="_blank" rel="noopener noreferrer">
+          <span class="icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.72 3.72 0 0 1-1.38-.9 3.72 3.72 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.13 1.38A5.88 5.88 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.38 2.13a5.88 5.88 0 0 0 2.13 1.38c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.88 5.88 0 0 0 2.13-1.38 5.88 5.88 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.88 5.88 0 0 0-1.38-2.13A5.88 5.88 0 0 0 19.86.63C19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg>
+          </span>
+          <span class="label"><strong>Instagram</strong><small>@SEU_USUARIO</small></span>
+          <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </li>
+
+      <li style="--i: 1">
+        <a class="link github" href="https://github.com/SEU_USUARIO" target="_blank" rel="noopener noreferrer">
+          <span class="icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3"/></svg>
+          </span>
+          <span class="label"><strong>GitHub</strong><small>github.com/SEU_USUARIO</small></span>
+          <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </li>
+
+      <li style="--i: 2">
+        <a class="link linkedin" href="https://linkedin.com/in/SEU_USUARIO" target="_blank" rel="noopener noreferrer">
+          <span class="icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          </span>
+          <span class="label"><strong>LinkedIn</strong><small>in/SEU_USUARIO</small></span>
+          <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </li>
+
+      <li style="--i: 3">
+        <a class="link tiktok" href="https://tiktok.com/@SEU_USUARIO" target="_blank" rel="noopener noreferrer">
+          <span class="icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+          </span>
+          <span class="label"><strong>TikTok</strong><small>@SEU_USUARIO</small></span>
+          <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </li>
+    </ul>
+
+    <footer class="fade-up" style="--d: 1.2s">© <span id="year"></span> Alexandre Júnior</footer>
+  </main>
+
+  <script>
+    (function () {
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Efeito de digitação no subtítulo
+      var phrases = ["Desenvolvedor", "Criador de conteúdo", "Sempre aprendendo ✨"];
+      var el = document.getElementById("typed");
+      var p = 0, c = 0, deleting = false;
+      function type() {
+        var word = phrases[p];
+        el.textContent = word.slice(0, c);
+        if (!deleting && c < word.length) { c++; setTimeout(type, 75); }
+        else if (!deleting) { deleting = true; setTimeout(type, 1600); }
+        else if (c > 0) { c--; setTimeout(type, 35); }
+        else { deleting = false; p = (p + 1) % phrases.length; setTimeout(type, 300); }
+      }
+      setTimeout(type, 700);
+
+      // Spotlight que segue o cursor no fundo
+      var root = document.documentElement;
+      window.addEventListener("pointermove", function (e) {
+        root.style.setProperty("--mx", e.clientX + "px");
+        root.style.setProperty("--my", e.clientY + "px");
+      }, { passive: true });
+
+      // Brilho interno + ripple nos cards
+      document.querySelectorAll(".link").forEach(function (card) {
+        card.addEventListener("pointermove", function (e) {
+          var r = card.getBoundingClientRect();
+          card.style.setProperty("--x", (e.clientX - r.left) + "px");
+          card.style.setProperty("--y", (e.clientY - r.top) + "px");
+        });
+
+        card.addEventListener("pointerdown", function (e) {
+          var r = card.getBoundingClientRect();
+          var size = Math.max(r.width, r.height);
+          var span = document.createElement("span");
+          span.className = "ripple";
+          span.style.width = span.style.height = size + "px";
+          span.style.left = (e.clientX - r.left - size / 2) + "px";
+          span.style.top = (e.clientY - r.top - size / 2) + "px";
+          card.appendChild(span);
+          setTimeout(function () { span.remove(); }, 650);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
